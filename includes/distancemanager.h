@@ -8,10 +8,6 @@ class DistanceManager: public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(double step READ step WRITE setStep)
-    Q_PROPERTY(int currentDistance READ currentDistance WRITE setCurrentDistance NOTIFY currentDistanceChanged)
-    Q_PROPERTY(eDistanceUnit currentDistanceUnit READ currentDistanceUnit WRITE setCurrentDistanceUnit NOTIFY currentDistanceUnitChanged)
-
 public:
     enum class eDistanceUnit
     {
@@ -45,6 +41,8 @@ public:
 
     Q_INVOKABLE void decrementDistanceByStep();
 
+    Q_INVOKABLE QString getValidatedDistance();
+
 public:
     double step() const;
     void setStep(double newStep);
@@ -56,14 +54,12 @@ public:
     void setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUnit);
 
 signals:
-    void currentDistanceChanged();
-    void errorOccured();
-    void currentDistanceUnitChanged();
+    void distanceValidatedChanged();
 
 private:
     double m_step = 1;
     double m_currentDistance;
-    eDistanceUnit m_currentDistanceUnit = eDistanceUnit::KM;
+    eDistanceUnit m_currentDistanceUnit = eDistanceUnit::M;
 };
 
 #endif // DISTANCEMANAGER_H

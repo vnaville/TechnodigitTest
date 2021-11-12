@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtGraphicalEffects 1.12
 import QtQuick.Layouts 1.3
+import QtQml 2.12
 import "Theme"
 import "BaseWidget"
 
@@ -29,7 +30,6 @@ Window {
                 width: 100
                 height: 100
             }
-
 
             Text{
                 anchors.horizontalCenter:  parent.horizontalCenter
@@ -59,8 +59,16 @@ Window {
             }
 
             Text {
-                text: distanceWidget.text
+                id: descriptionText
+
                 anchors.horizontalCenter:  parent.horizontalCenter
+
+                Connections {
+                    target: distanceWidget
+                    onNewDistanceValidated: {
+                        descriptionText.text = "The length is "+ distanceWidget.distance
+                    }
+                }
             }
         }
     }

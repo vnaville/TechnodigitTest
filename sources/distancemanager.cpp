@@ -25,10 +25,14 @@ DistanceManager::eDistanceUnit DistanceManager::eDistanceUnitFromString(const QS
         return eDistanceUnit::MM;
 
     if (valueLowerCase == "km")
-        return eDistanceUnit::M;
+        return eDistanceUnit::KM;
 
     if (valueLowerCase == "in")
-        return eDistanceUnit::M;
+        return eDistanceUnit::IN;
+
+    if (valueLowerCase == "ft")
+        return eDistanceUnit::FT;
+
 
     return eDistanceUnit::UNKNOWN;
 }
@@ -57,6 +61,12 @@ bool DistanceManager::validateDistance(QString distance)
 
         eDistanceUnit validatedUnit = eDistanceUnitFromString(regExp.cap(2));
 
+        // Special case: if no unit is written, KM is used as default value
+        if (regExp.cap(2).isEmpty())
+        {
+            validatedUnit = eDistanceUnit::KM;
+        }
+
         if (validatedUnit == eDistanceUnit::UNKNOWN)
         {
             qWarning() << QString("Wrong distance unit: %1 is unknown").arg(regExp.cap(2));
@@ -64,7 +74,10 @@ bool DistanceManager::validateDistance(QString distance)
         }
 
         qWarning() << "Validated!";
+        setCurrentDistanceUnit(validatedUnit);
         setCurrentDistance(validatedDistance);
+
+        emit distanceValidatedChanged();
         return true;
     }
     else
@@ -78,6 +91,8 @@ void DistanceManager::incrementDistanceByStep()
 {
     qDebug() << "Increment step";
     m_currentDistance = m_currentDistance + m_step;
+
+    emit distanceValidatedChanged();
 }
 
 void DistanceManager::decrementDistanceByStep()
@@ -88,6 +103,15 @@ void DistanceManager::decrementDistanceByStep()
     {
         m_currentDistance = newDistance;
     }
+
+    emit distanceValidatedChanged();
+}
+
+QString DistanceManager::getValidatedDistance()
+{
+    qDebug() << m_currentDistanceUnit;
+    QString result = QString::number(m_currentDistance) + " " + textFromValue(m_currentDistanceUnit);
+    return result;
 }
 
 double DistanceManager::step() const
@@ -110,7 +134,7 @@ void DistanceManager::setCurrentDistance(double newCurrentDistance)
     if (m_currentDistance == newCurrentDistance)
         return;
     m_currentDistance = newCurrentDistance;
-    emit currentDistanceChanged();
+    emit distanceValidatedChanged();
 }
 
 DistanceManager::eDistanceUnit DistanceManager::currentDistanceUnit() const
@@ -122,6 +146,7 @@ void DistanceManager::setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUni
 {
     if (m_currentDistanceUnit == newCurrentDistanceUnit)
         return;
+
     m_currentDistanceUnit = newCurrentDistanceUnit;
-    emit currentDistanceUnitChanged();
+    emit distanceValidatedChanged();
 }

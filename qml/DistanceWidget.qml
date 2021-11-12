@@ -16,18 +16,57 @@ Rectangle{
 
     color: theme.colorBackGround2
 
-    property string text
+    property alias distance: textDistance.text
 
-    Text {
-        id: textDistance
+    signal newDistanceValidated
+
+    Connections {
+        target: distanceManager
+        onDistanceValidatedChanged: {
+            textDistance.text = distanceManager.getValidatedDistance()
+            newDistanceValidated()
+        }
+    }
+
+    MouseArea {
+        id: distanceWidgetMouseArea
+
         anchors.fill: parent
-        text: distanceWidget.text
+        onClicked: {
+            popup.width = distanceWidget.width;
+            popup.open()
+        }
+        hoverEnabled: true
 
-        horizontalAlignment : Text.AlignHCenter
-        verticalAlignment : Text.AlignVCenter
+        onContainsMouseChanged: containsMouse ? parent.border.color = theme.colorHighlight : parent.border.color = theme.colorNoHighlight
+
+        onWheel: {
+            if (wheel.angleDelta.y > 0)
+            {
+                distanceManager.incrementDistanceByStep()
+            } else {
+                distanceManager.decrementDistanceByStep()
+            }
+        }
+    }
+
+
+    RowLayout {
+        anchors.fill: parent
+
+        Text {
+            id: textDistance
+            horizontalAlignment : Text.AlignHCenter
+            verticalAlignment : Text.AlignVCenter
+
+            text: "1 m"
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
 
         ColumnLayout {
-            anchors.right: parent.right
+            Layout.preferredWidth: 20
 
             height: textInputEditText.height
             spacing: 0
@@ -55,39 +94,13 @@ Rectangle{
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            popup.width = distanceWidget.width;
-            popup.open()
-        }
-        hoverEnabled: true
-
-        onContainsMouseChanged: containsMouse ? parent.border.color = theme.colorHighlight : parent.border.color = theme.colorNoHighlight
-
-        onWheel: {
-            if (wheel.angleDelta.y > 0)
-            {
-                distanceManager.incrementDistanceByStep()
-            } else {
-                distanceManager.decrementDistanceByStep()
-            }
-        }
-    }
-
     Popup{
         id: popup
 
         margins: 0
         padding: 5
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-
         clip: true
-
-        property int defaultHeight: 200//contentItem.height//popup.contentHeight
-        property int defaultWidth: distanceWidget.width
-
-//        contentWidth: width; // flickable content width is its own width, scroll only vertically
         contentHeight: childrenRect.height
 
         onOpened: {
@@ -97,7 +110,7 @@ Rectangle{
         onAboutToHide: {
             if (distanceManager.validateDistance(textInputEditText.text))
             {
-                distanceWidget.text = textInputEditText.text
+                distanceWidget.distance = distanceManager.getValidatedDistance()
             }
         }
 
@@ -136,7 +149,7 @@ Rectangle{
                 TextField {
                     id: textInputEditText
                     width: 50
-                    text: distanceWidget.text
+                    text: distanceWidget.distance
 
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -146,8 +159,6 @@ Rectangle{
                     }
 
                     onEditingFinished: {
-                        console.log(focus + "   " + popup.opened + "   ")
-
                         // We don't want to close de popup when the textfield lose the focus
                         if (focus != false && popup.opened)
                         {
