@@ -7,8 +7,6 @@ Item
     readonly property color colorHighlight: "cornflowerblue"
     readonly property color colorNoHighlight: "black"
 
-
-
     property alias textTheme: textTheme
 
     // Text theme
@@ -16,5 +14,7 @@ Item
         id: textTheme
         readonly property int textPixelSize: 14
         readonly property color colorText: "white"
+        readonly property color colorErrorText: "red"
     }
 }
+

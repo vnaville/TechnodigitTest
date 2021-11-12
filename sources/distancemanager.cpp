@@ -70,10 +70,14 @@ bool DistanceManager::validateDistance(QString distance)
         if (validatedUnit == eDistanceUnit::UNKNOWN)
         {
             qWarning() << QString("Wrong distance unit: %1 is unknown").arg(regExp.cap(2));
+
+            m_lastError = eError::UNKNOWN_UNIT;
+            emit errorOccurred();
+
             return false;
         }
 
-        qWarning() << "Validated!";
+        qDebug() << "Validated!";
         setCurrentDistanceUnit(validatedUnit);
         setCurrentDistance(validatedDistance);
 
@@ -83,6 +87,9 @@ bool DistanceManager::validateDistance(QString distance)
     else
     {
         qWarning() << "Distance not valid, bad format";
+
+        m_lastError = eError::BAD_FORMAT;
+        emit errorOccurred();
         return false;
     }
 }
@@ -112,6 +119,18 @@ QString DistanceManager::getValidatedDistance()
     qDebug() << m_currentDistanceUnit;
     QString result = QString::number(m_currentDistance) + " " + textFromValue(m_currentDistanceUnit);
     return result;
+}
+
+QString DistanceManager::getLastErrorString()
+{
+    switch (m_lastError)
+    {
+    case eError::BAD_FORMAT:
+        return "Distance not valid, bad format";
+    case eError::UNKNOWN_UNIT:
+        return "Unknown distance unit";
+    default: return "Unkown error";
+    }
 }
 
 double DistanceManager::step() const

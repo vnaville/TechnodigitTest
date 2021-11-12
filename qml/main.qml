@@ -26,6 +26,7 @@ Window {
             anchors.fill: parent
             anchors.leftMargin: 50
 
+            // separator
             Item{
                 width: 100
                 height: 100
@@ -41,6 +42,7 @@ Window {
                 text: "Enter a distance according to this format: <br> \" number distanceUnit\" <br> <b> Exemple: 25 km "
             }
 
+            // separator
             Item{
                 width: 100
                 height: 50
@@ -53,6 +55,7 @@ Window {
                 anchors.horizontalCenter:  parent.horizontalCenter
             }
 
+            // separator
             Item{
                 width: 100
                 height: 100
@@ -66,7 +69,13 @@ Window {
                 Connections {
                     target: distanceWidget
                     onNewDistanceValidated: {
+                        descriptionText.color = theme.textTheme.colorText
                         descriptionText.text = "The length is "+ distanceWidget.distance
+                    }
+
+                    onErrorOccurred:{
+                        descriptionText.color = theme.textTheme.colorErrorText
+                        descriptionText.text = "Error:" + errorString
                     }
                 }
             }

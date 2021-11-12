@@ -26,7 +26,7 @@ public:
     enum class eError
     {
         BAD_FORMAT,
-        BUNKNOWN_UNIT,
+        UNKNOWN_UNIT,
         UNKNOWN
     };
     Q_ENUM(eError)
@@ -43,6 +43,9 @@ public:
 
     Q_INVOKABLE QString getValidatedDistance();
 
+    Q_INVOKABLE QString getLastErrorString();
+
+
 public:
     double step() const;
     void setStep(double newStep);
@@ -55,11 +58,14 @@ public:
 
 signals:
     void distanceValidatedChanged();
+    void errorOccurred();
 
 private:
     double m_step = 1;
     double m_currentDistance;
     eDistanceUnit m_currentDistanceUnit = eDistanceUnit::M;
+
+    eError m_lastError;
 };
 
 #endif // DISTANCEMANAGER_H

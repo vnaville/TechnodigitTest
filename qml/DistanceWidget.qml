@@ -20,11 +20,17 @@ Rectangle{
 
     signal newDistanceValidated
 
+    signal errorOccurred(string errorString)
+
     Connections {
         target: distanceManager
         onDistanceValidatedChanged: {
             textDistance.text = distanceManager.getValidatedDistance()
             newDistanceValidated()
+        }
+
+        onErrorOccurred: {
+            errorOccurred(distanceManager.getLastErrorString())
         }
     }
 
