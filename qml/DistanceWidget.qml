@@ -94,6 +94,28 @@ Rectangle{
         }
     }
 
+    // Allow to drag and drop text into the widget
+    DropArea {
+        anchors.fill: parent
+
+        onEntered: dropHightlight.visible = true
+        onExited: dropHightlight.visible = false
+
+        onDropped:{
+            distanceManager.validateDistance(drop.text)
+            onExited: dropHightlight.visible = false
+        }
+
+        Rectangle {
+            id: dropHightlight
+            anchors.fill: parent
+            color: theme.colorHighlight
+            radius: 5
+            opacity: 0.5
+            visible: false
+        }
+    }
+
     Popup{
         id: popup
 
@@ -173,7 +195,7 @@ Rectangle{
                         height: 20
                         text: "X"
 
-//                        anchors.verticalCenter: parent.verticalCenter
+                        //                        anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
 
                         background: Item {} // Allow to have en transparent background
