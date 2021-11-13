@@ -1,6 +1,12 @@
 #include "includes/distancemanager.h"
 #include <QDebug>
 
+/**
+ * @brief DistanceManager::textFromValue
+ * @details Allow to convert an eDistanceUnit into a string
+ * @param distanceUnit eDistanceUnit to convert
+ * @return the result of conversion. Return "Unknown" if the conversion failed
+ */
 QString DistanceManager::textFromValue(eDistanceUnit distanceUnit)
 {
     switch (distanceUnit)
@@ -14,6 +20,12 @@ QString DistanceManager::textFromValue(eDistanceUnit distanceUnit)
     }
 }
 
+/**
+ * @brief DistanceManager::eDistanceUnitFromString
+ * @details Allow to convert a string into a eDistanceUnit
+ * @param value QString to convert into a eDistanceUnit
+ * @return the result of conversion. Return eDistanceUnit::UNKNOWN if the conversion failed
+ */
 DistanceManager::eDistanceUnit DistanceManager::eDistanceUnitFromString(const QString &value)
 {
     QString valueLowerCase = value.toLower();
@@ -37,11 +49,23 @@ DistanceManager::eDistanceUnit DistanceManager::eDistanceUnitFromString(const QS
     return eDistanceUnit::UNKNOWN;
 }
 
+/**
+ * @brief DistanceManager::DistanceManager
+ * @details Constructor of Distancemanager Class
+ * @param parent Parent object of the class
+ */
 DistanceManager::DistanceManager(QObject* parent)
     : QObject (parent)
 {
 }
 
+/**
+ * @brief DistanceManager::validateDistance
+ * @details validateDistance given in argument. If an error occured, a signal errorOccurred() is emited, If the distance is
+ * validated, a signal distanceValidatedChanged() is emited
+ * @param distance the distance to validate
+ * @return True if the distance is validated, else , false.
+ */
 bool DistanceManager::validateDistance(QString distance)
 {
     qDebug() << "VALIDATE";
@@ -94,6 +118,10 @@ bool DistanceManager::validateDistance(QString distance)
     }
 }
 
+/**
+ * @brief DistanceManager::incrementDistanceByStep
+ * @details increase current stored distance by the value of m_step. A signal distanceValidatedChanged() is emitted.
+ */
 void DistanceManager::incrementDistanceByStep()
 {
     qDebug() << "Increment step";
@@ -102,6 +130,11 @@ void DistanceManager::incrementDistanceByStep()
     emit distanceValidatedChanged();
 }
 
+/**
+ * @brief DistanceManager::decrementDistanceByStep
+ * @details decrease current stored distance by the value of m_step. If the new value is < 0, nothing happen.
+ *  A signal distanceValidatedChanged() is emitted.
+ */
 void DistanceManager::decrementDistanceByStep()
 {
     qDebug() << "Décrement step";
@@ -114,6 +147,11 @@ void DistanceManager::decrementDistanceByStep()
     emit distanceValidatedChanged();
 }
 
+/**
+ * @brief DistanceManager::getValidatedDistance
+ * @details Return the current validated distance.
+ * @return The current validated distance.
+ */
 QString DistanceManager::getValidatedDistance()
 {
     qDebug() << m_currentDistanceUnit;
@@ -121,6 +159,11 @@ QString DistanceManager::getValidatedDistance()
     return result;
 }
 
+/**
+ * @brief DistanceManager::getLastErrorString
+ * @details Return the string description of the last error occurred
+ * @return The string description of the last error occurred
+ */
 QString DistanceManager::getLastErrorString()
 {
     switch (m_lastError)
@@ -133,21 +176,31 @@ QString DistanceManager::getLastErrorString()
     }
 }
 
+/**
+ * @brief DistanceManager::step
+ * @details Return current value of step
+ * @return The current value of step
+ */
 double DistanceManager::step() const
 {
     return m_step;
 }
 
+/**
+ * @brief DistanceManager::setStep
+ * @details
+ * @param newStep
+ */
 void DistanceManager::setStep(double newStep)
 {
     m_step = newStep;
 }
 
-int DistanceManager::currentDistance() const
-{
-    return m_currentDistance;
-}
-
+/**
+ * @brief DistanceManager::setCurrentDistance
+ * @details Set a new current distance value
+ * @param newCurrentDistance the new value
+ */
 void DistanceManager::setCurrentDistance(double newCurrentDistance)
 {
     if (m_currentDistance == newCurrentDistance)
@@ -156,11 +209,11 @@ void DistanceManager::setCurrentDistance(double newCurrentDistance)
     emit distanceValidatedChanged();
 }
 
-DistanceManager::eDistanceUnit DistanceManager::currentDistanceUnit() const
-{
-    return m_currentDistanceUnit;
-}
-
+/**
+ * @brief DistanceManager::setCurrentDistanceUnit
+ * @details Set a new distance unit of current distance
+ * @param newCurrentDistanceUnit the new distance unit of current distance
+ */
 void DistanceManager::setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUnit)
 {
     if (m_currentDistanceUnit == newCurrentDistanceUnit)

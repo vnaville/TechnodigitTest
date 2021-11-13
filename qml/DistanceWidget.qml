@@ -4,6 +4,10 @@ import QtQuick.Layouts 1.3
 import QtQml 2.12
 import "BaseWidget"
 
+/*
+Widget which allow to edit a distance.
+A new distance entered must be validated in order to be changed, and must follow a specific format.
+*/
 Rectangle{
     id: distanceWidget
 

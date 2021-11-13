@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QRegExpValidator>
 
+/**
+ * @brief The DistanceManager class
+ */
 class DistanceManager: public QObject
 {
     Q_OBJECT
@@ -45,15 +48,12 @@ public:
 
     Q_INVOKABLE QString getLastErrorString();
 
-
 public:
     double step() const;
     void setStep(double newStep);
 
-    int currentDistance() const;
+private:
     void setCurrentDistance(double newCurrentDistance);
-
-    eDistanceUnit currentDistanceUnit() const;
     void setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUnit);
 
 signals:
