@@ -52,6 +52,8 @@ public:
     double step() const;
     void setStep(double newStep);
 
+    eError lastError() const;
+
 private:
     void setCurrentDistance(double newCurrentDistance);
     void setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUnit);

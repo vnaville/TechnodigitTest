@@ -2,6 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "includes/distancemanager.h"
+#include <QCommandLineParser>
+#include "includes/integrationtest.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +13,28 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+
+    QCommandLineParser parser;
+
+    QCommandLineOption integrationTestOption(QStringList() << "i" << "integrationTest", "Play integration tests");
+    parser.addOption(integrationTestOption);
+
+    qDebug() << QCoreApplication::arguments();
+
+    if (!parser.parse(QCoreApplication::arguments())) {
+        qDebug() << "Error" << parser.errorText();
+    }
+
+    if (parser.isSet("integrationTest"))
+    {
+        IntegrationTest integrationTest;
+        if (integrationTest.doIntegrationTests())
+        {
+            qDebug() << "Integration tests succeeded";
+        } else {
+            qDebug() << "Integration tests failed";
+        }
+    }
 
     QQmlApplicationEngine engine;
 

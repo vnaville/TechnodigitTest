@@ -8,6 +8,7 @@ CONFIG += c++14
 
 SOURCES += \
     sources/distancemanager.cpp \
+    sources/integrationtest.cpp \
     sources/main.cpp
 
 RESOURCES += qml.qrc
@@ -34,4 +35,5 @@ DISTFILES += \
     qml/main.qml
 
 HEADERS += \
-    includes/distancemanager.h
+    includes/distancemanager.h \
+    includes/integrationtest.h

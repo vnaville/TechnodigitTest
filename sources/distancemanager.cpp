@@ -68,8 +68,6 @@ DistanceManager::DistanceManager(QObject* parent)
  */
 bool DistanceManager::validateDistance(QString distance)
 {
-    qDebug() << "VALIDATE";
-
     QRegExp regExp("([0-9]+) *([A-Za-z]{,2})");
     regExp.indexIn(distance);
 
@@ -101,7 +99,6 @@ bool DistanceManager::validateDistance(QString distance)
             return false;
         }
 
-        qDebug() << "Validated!";
         setCurrentDistanceUnit(validatedUnit);
         setCurrentDistance(validatedDistance);
 
@@ -110,8 +107,6 @@ bool DistanceManager::validateDistance(QString distance)
     }
     else
     {
-        qWarning() << "Distance not valid, bad format";
-
         m_lastError = eError::BAD_FORMAT;
         emit errorOccurred();
         return false;
@@ -154,7 +149,6 @@ void DistanceManager::decrementDistanceByStep()
  */
 QString DistanceManager::getValidatedDistance()
 {
-    qDebug() << m_currentDistanceUnit;
     QString result = QString::number(m_currentDistance) + " " + textFromValue(m_currentDistanceUnit);
     return result;
 }
@@ -221,4 +215,9 @@ void DistanceManager::setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUni
 
     m_currentDistanceUnit = newCurrentDistanceUnit;
     emit distanceValidatedChanged();
+}
+
+DistanceManager::eError DistanceManager::lastError() const
+{
+    return m_lastError;
 }
