@@ -13,10 +13,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-
     // Déclaration of c++ classes used inside QML
-    DistanceManager distanceManager;
-    engine.rootContext()->setContextProperty("distanceManager", qobject_cast<QObject *>(&distanceManager));
+    qmlRegisterType<DistanceManager>("DistanceManager", 1, 0, "DistanceManager");
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

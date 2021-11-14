@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import QtQml 2.12
+import DistanceManager 1.0
 import "BaseWidget"
 
 /*
@@ -25,6 +26,10 @@ Rectangle{
     signal newDistanceValidated
 
     signal errorOccurred(string errorString)
+
+    DistanceManager {
+        id: distanceManager
+    }
 
     Connections {
         target: distanceManager
