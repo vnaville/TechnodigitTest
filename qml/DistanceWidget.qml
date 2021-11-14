@@ -22,11 +22,10 @@ Rectangle{
     color: theme.colorBackGround2
 
     property alias distance: textDistance.text
-
     signal newDistanceValidated
-
     signal errorOccurred(string errorString)
 
+    // C++ classe which will do the complexes tasks of this widget
     DistanceManager {
         id: distanceManager
     }
@@ -64,7 +63,6 @@ Rectangle{
             }
         }
     }
-
 
     RowLayout {
         anchors.fill: parent
@@ -139,6 +137,7 @@ Rectangle{
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         clip: true
         contentHeight: childrenRect.height
+        height: contentHeight
 
         onOpened: {
             textInputEditText.forceActiveFocus()
@@ -152,18 +151,22 @@ Rectangle{
         }
 
         enter: Transition {
+            property int duration: 500
+
             ParallelAnimation{
-                NumberAnimation { target: popup; property: "width"; from: 10; to: distanceWidget.width; duration: 1000; easing.type: Easing.OutBounce; easing.amplitude: 0.1}
-                NumberAnimation { target: popup; property: "height";from: 0; to: popup.contentHeight; duration: 1000; easing.type: Easing.OutBounce; easing.amplitude: 0.1}
-                NumberAnimation { target: popup; property: "opacity";from: 0; to: 1; duration: 1000; easing.type: Easing.OutBounce }
+                NumberAnimation { target: popup; property: "width"; from: 0; to: distanceWidget.width; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
+//                NumberAnimation { target: popup; property: "height";from: 0; to: popup.contentHeight; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
+                NumberAnimation { target: popup; property: "opacity";from: 0; to: 1; duration: duration; easing.type: Easing.InOutQuad }
             }
         }
 
         exit: Transition {
+            property int duration: 500
             ParallelAnimation{
-                NumberAnimation { target: popup; property: "width"; to: 10; from: distanceWidget.width; duration: 1000; easing.type: Easing.OutBounce; easing.amplitude: 0.1}
-                NumberAnimation { target: popup; property: "height";to: 0; from: popup.contentHeight; duration: 1000; easing.type: Easing.OutBounce; easing.amplitude: 0.1}
-                NumberAnimation { target: popup; property: "opacity";to: 0; from: 1; duration: 1000; easing.type: Easing.OutBounce }
+
+                NumberAnimation { target: popup; property: "width"; to: 0; from: distanceWidget.width; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
+//                NumberAnimation { target: popup; property: "height";to: 0; from: popup.contentHeight; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
+                NumberAnimation { target: popup; property: "opacity";to: 0; from: 1; duration: duration; easing.type: Easing.InOutQuad }
             }
         }
 
