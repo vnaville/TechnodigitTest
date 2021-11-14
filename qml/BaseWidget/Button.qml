@@ -2,6 +2,7 @@ import QtQuick.Controls 2.12 as Control
 import QtQuick 2.12
 import "../BaseWidget"
 
+/* Custom button which allow default values for button Items */
 Control.Button {
     id: button
 

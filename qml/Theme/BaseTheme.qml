@@ -1,5 +1,7 @@
 import QtQuick 2.12
 
+
+/* class holding propery used in the base Ui theme of the application */
 Item
 {
     readonly property color colorBackGround: "#2b2b2b"

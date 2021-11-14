@@ -28,9 +28,9 @@ public:
 
     enum class eError
     {
-        BAD_FORMAT,
-        UNKNOWN_UNIT,
-        UNKNOWN
+        BAD_FORMAT,     // Bad format for the distance entered
+        UNKNOWN_UNIT,   // Unknown distance unit for the distance entered
+        UNKNOWN         // Unknown error
     };
     Q_ENUM(eError)
 
@@ -59,15 +59,14 @@ private:
     void setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUnit);
 
 signals:
-    void distanceValidatedChanged();
-    void errorOccurred();
+    void distanceValidatedChanged();    /* emited when the stored validated distance or its unit is changed.*/
+    void errorOccurred();               /* emited when an error occurred */
 
 private:
-    double m_step = 1;
-    double m_currentDistance;
-    eDistanceUnit m_currentDistanceUnit = eDistanceUnit::M;
-
-    eError m_lastError;
+    double m_step = 1;        /* Currrent value of a step used in incrementation or decrementation of distance */
+    double m_currentDistance; /* current validated stored distance */
+    eDistanceUnit m_currentDistanceUnit = eDistanceUnit::M;     /*current distanceunit of the current validated stored distance*/
+    eError m_lastError;       /*Last error occurred when entering a distance*/
 };
 
 #endif // DISTANCEMANAGER_H
