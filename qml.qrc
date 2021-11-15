@@ -1,3 +1,11 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>qml/DistanceWidget.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/BaseWidget/Button.qml</file>
+        <file>qml/BaseWidget/Text.qml</file>
+        <file>qml/BaseWidget/TextInput.qml</file>
+        <file>qml/BaseWidget/TextField.qml</file>
+        <file>qml/Theme/BaseTheme.qml</file>
+    </qresource>
 </RCC>
