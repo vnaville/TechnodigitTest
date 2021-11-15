@@ -273,7 +273,7 @@ Rectangle{
                     width: 50
 
                     validator: RegExpValidator {
-                        regExp: /[0-9]*.+[0-9]+ *[A-Za-z]*/
+                        regExp: /[0-9]*.?[0-9]+ *[A-Za-z]*/
                     }
 
                     onEditingFinished: {
