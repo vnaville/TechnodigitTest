@@ -63,7 +63,7 @@ signals:
     void errorOccurred();               /* emited when an error occurred */
 
 private:
-    double m_step = 1;        /* Currrent value of a step used in incrementation or decrementation of distance */
+    double m_step = 0.1;        /* Currrent value of a step used in incrementation or decrementation of distance */
     double m_currentDistance; /* current validated stored distance */
     eDistanceUnit m_currentDistanceUnit = eDistanceUnit::M;     /*current distanceunit of the current validated stored distance*/
     eError m_lastError;       /*Last error occurred when entering a distance*/

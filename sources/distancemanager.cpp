@@ -68,7 +68,7 @@ DistanceManager::DistanceManager(QObject* parent)
  */
 bool DistanceManager::validateDistance(QString distance)
 {
-    QRegExp regExp("([0-9]+) *([A-Za-z]{,2})");
+    QRegExp regExp("([0-9]+(.[0-9]+)?) *([A-Za-z]*)");
     regExp.indexIn(distance);
 
     QRegExpValidator validator;
@@ -81,12 +81,12 @@ bool DistanceManager::validateDistance(QString distance)
     {
         double validatedDistance = regExp.cap(1).toDouble();
 
-        eDistanceUnit validatedUnit = eDistanceUnitFromString(regExp.cap(2));
+        eDistanceUnit validatedUnit = eDistanceUnitFromString(regExp.cap(3));
 
         // Special case: if no unit is written, KM is used as default value
-        if (regExp.cap(2).isEmpty())
+        if (regExp.cap(3).isEmpty())
         {
-            validatedUnit = eDistanceUnit::KM;
+            validatedUnit = eDistanceUnit::M;
         }
 
         if (validatedUnit == eDistanceUnit::UNKNOWN)
@@ -133,7 +133,7 @@ void DistanceManager::incrementDistanceByStep()
 void DistanceManager::decrementDistanceByStep()
 {
     qDebug() << "Décrement step";
-    int newDistance = m_currentDistance - m_step;
+    double newDistance = m_currentDistance - m_step;
     if (newDistance >= 0 )
     {
         m_currentDistance = newDistance;

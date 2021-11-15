@@ -155,7 +155,6 @@ Rectangle{
 
             ParallelAnimation{
                 NumberAnimation { target: popup; property: "width"; from: 0; to: distanceWidget.width; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
-//                NumberAnimation { target: popup; property: "height";from: 0; to: popup.contentHeight; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
                 NumberAnimation { target: popup; property: "opacity";from: 0; to: 1; duration: duration; easing.type: Easing.InOutQuad }
             }
         }
@@ -165,7 +164,6 @@ Rectangle{
             ParallelAnimation{
 
                 NumberAnimation { target: popup; property: "width"; to: 0; from: distanceWidget.width; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
-//                NumberAnimation { target: popup; property: "height";to: 0; from: popup.contentHeight; duration: duration; easing.type: Easing.InOutQuad; easing.amplitude: 0.1}
                 NumberAnimation { target: popup; property: "opacity";to: 0; from: 1; duration: duration; easing.type: Easing.InOutQuad }
             }
         }
@@ -195,7 +193,7 @@ Rectangle{
                     anchors.right: parent.right
 
                     validator: RegExpValidator {
-                        regExp: /([0-9]+) *[A-Za-z.]{,2}/
+                        regExp: /[0-9]*(.[0-9]+)? *[A-Za-z]*/
                     }
 
                     onEditingFinished: {

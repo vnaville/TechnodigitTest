@@ -19,8 +19,6 @@ int main(int argc, char *argv[])
     QCommandLineOption integrationTestOption(QStringList() << "i" << "integrationTest", "Play integration tests");
     parser.addOption(integrationTestOption);
 
-    qDebug() << QCoreApplication::arguments();
-
     if (!parser.parse(QCoreApplication::arguments())) {
         qDebug() << "Error" << parser.errorText();
     }
