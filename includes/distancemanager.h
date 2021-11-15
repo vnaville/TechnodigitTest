@@ -10,6 +10,7 @@
 class DistanceManager: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(double step READ step WRITE setStep NOTIFY stepChanged)
 
 public:
     enum class eDistanceUnit
@@ -49,10 +50,10 @@ public:
     Q_INVOKABLE QString getLastErrorString();
 
 public:
+    eError lastError() const;
+
     double step() const;
     void setStep(double newStep);
-
-    eError lastError() const;
 
 private:
     void setCurrentDistance(double newCurrentDistance);
@@ -62,9 +63,11 @@ signals:
     void distanceValidatedChanged();    /* emited when the stored validated distance or its unit is changed.*/
     void errorOccurred();               /* emited when an error occurred */
 
+    void stepChanged();
+
 private:
     double m_step = 0.1;        /* Currrent value of a step used in incrementation or decrementation of distance */
-    double m_currentDistance; /* current validated stored distance */
+    double m_currentDistance = 1; /* current validated stored distance */
     eDistanceUnit m_currentDistanceUnit = eDistanceUnit::M;     /*current distanceunit of the current validated stored distance*/
     eError m_lastError;       /*Last error occurred when entering a distance*/
 };

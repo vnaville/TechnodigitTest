@@ -119,7 +119,6 @@ bool DistanceManager::validateDistance(QString distance)
  */
 void DistanceManager::incrementDistanceByStep()
 {
-    qDebug() << "Increment step";
     m_currentDistance = m_currentDistance + m_step;
 
     emit distanceValidatedChanged();
@@ -132,11 +131,9 @@ void DistanceManager::incrementDistanceByStep()
  */
 void DistanceManager::decrementDistanceByStep()
 {
-    qDebug() << "Décrement step";
     double newDistance = m_currentDistance - m_step;
     if (newDistance >= 0 )
     {
-        qDebug() << "Décrement step" << newDistance;
         m_currentDistance = newDistance;
 
     }
@@ -178,26 +175,6 @@ QString DistanceManager::getLastErrorString()
 }
 
 /**
- * @brief DistanceManager::step
- * @details Return current value of step
- * @return The current value of step
- */
-double DistanceManager::step() const
-{
-    return m_step;
-}
-
-/**
- * @brief DistanceManager::setStep
- * @details
- * @param newStep
- */
-void DistanceManager::setStep(double newStep)
-{
-    m_step = newStep;
-}
-
-/**
  * @brief DistanceManager::setCurrentDistance
  * @details Set a new current distance value
  * @param newCurrentDistance the new value
@@ -222,6 +199,26 @@ void DistanceManager::setCurrentDistanceUnit(eDistanceUnit newCurrentDistanceUni
 
     m_currentDistanceUnit = newCurrentDistanceUnit;
     emit distanceValidatedChanged();
+}
+
+/**
+ * @brief DistanceManager::step
+ * @details Return current value of step
+ * @return The current value of step
+ */
+double DistanceManager::step() const
+{
+    return m_step;
+}
+
+/**
+ * @brief DistanceManager::setStep
+ * @details
+ * @param newStep
+ */
+void DistanceManager::setStep(double newStep)
+{
+    m_step = newStep;
 }
 
 DistanceManager::eError DistanceManager::lastError() const

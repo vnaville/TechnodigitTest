@@ -96,7 +96,44 @@ Rectangle{
 
                 text:"+"
                 width: parent.buttonWidth
-                onClicked: distanceManager.incrementDistanceByStep()
+
+                onPressed: {
+                    distanceManager.step = 0.1
+                    timerIncrement.start()
+                    timerIncrement.numberOfTriggerSinceStart = 0
+                }
+
+                onReleased: {
+                    distanceManager.step = 0.1
+                    timerIncrement.stop()
+                }
+
+                Timer {
+                    id: timerIncrement
+                    interval: 250;
+                    repeat: true
+                    triggeredOnStart: true
+
+                    property int numberOfTriggerSinceStart: 0
+                    onTriggered: {
+                        numberOfTriggerSinceStart++
+
+                        if (numberOfTriggerSinceStart >= 10)
+                        {
+                            distanceManager.step = 1;
+                        }
+                        if (numberOfTriggerSinceStart >= 20)
+                        {
+                            distanceManager.step = 10;
+                        }
+                        if (numberOfTriggerSinceStart >= 30)
+                        {
+                            distanceManager.step = 100;
+                        }
+
+                        distanceManager.incrementDistanceByStep()
+                    }
+                }
             }
 
             Button {
@@ -106,6 +143,44 @@ Rectangle{
                 text:"-"
                 width: parent.buttonWidth
                 onClicked: distanceManager.decrementDistanceByStep()
+
+                onPressed: {
+                    timerDecrement.step = 0.1
+                    timerDecrement.start()
+                    timerDecrement.numberOfTriggerSinceStart = 0
+                }
+
+                onReleased: {
+                    timerDecrement.step = 0.1
+                    timerDecrement.stop()
+                }
+
+                Timer {
+                    id: timerDecrement
+                    interval: 250;
+                    repeat: true
+                    triggeredOnStart: true
+
+                    property int numberOfTriggerSinceStart: 0
+                    onTriggered: {
+                        numberOfTriggerSinceStart++
+
+                        if (numberOfTriggerSinceStart >= 10)
+                        {
+                            distanceManager.step = 1;
+                        }
+                        if (numberOfTriggerSinceStart >= 20)
+                        {
+                            distanceManager.step = 10;
+                        }
+                        if (numberOfTriggerSinceStart >= 30)
+                        {
+                            distanceManager.step = 100;
+                        }
+
+                        distanceManager.decrementDistanceByStep()
+                    }
+                }
             }
         }
     }
@@ -196,13 +271,13 @@ Rectangle{
                     anchors.right: parent.right
 
                     width: 50
-                    text: distanceWidget.distance
 
                     validator: RegExpValidator {
                         regExp: /[0-9]*.+[0-9]+ *[A-Za-z]*/
                     }
 
                     onEditingFinished: {
+                        console.log(acceptableInput)
                         // We don't want to close de popup when the textfield lose the focus
                         if (focus != false && popup.opened)
                         {
@@ -221,7 +296,9 @@ Rectangle{
 
                         background: Item {} // Allow to have en transparent background
 
-                        onClicked: textInputEditText.text = "1 m"
+                        onClicked: {
+                            textInputEditText.text = "1 m"
+                        }
 
                         onHoveredChanged: hovered ? contentItem.color = theme.colorHighlight : contentItem.color = "grey"
                     }
