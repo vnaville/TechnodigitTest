@@ -47,6 +47,7 @@ Rectangle{
 
         onClicked: {
             popup.width = distanceWidget.width;
+            textInputEditText.text = textDistance.text
             popup.open()
         }
         hoverEnabled: true
@@ -198,7 +199,7 @@ Rectangle{
                     text: distanceWidget.distance
 
                     validator: RegExpValidator {
-                        regExp: /[0-9]*(.[0-9]+)? *[A-Za-z]*/
+                        regExp: /[0-9]*.+[0-9]+ *[A-Za-z]*/
                     }
 
                     onEditingFinished: {
@@ -209,7 +210,7 @@ Rectangle{
                         }
                     }
 
-                    placeholderText: "Enter a distance. (ex: 25 km)"
+                    placeholderText: "ex: 25 km"
 
                     Button {
                         anchors.right: parent.right
