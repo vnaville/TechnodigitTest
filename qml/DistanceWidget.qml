@@ -277,7 +277,6 @@ Rectangle{
                     }
 
                     onEditingFinished: {
-                        console.log(acceptableInput)
                         // We don't want to close de popup when the textfield lose the focus
                         if (focus != false && popup.opened)
                         {
@@ -289,6 +288,7 @@ Rectangle{
 
                     Button {
                         anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
 
                         width: 20
                         height: 20

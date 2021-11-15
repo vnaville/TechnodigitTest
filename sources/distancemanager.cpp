@@ -45,7 +45,6 @@ DistanceManager::eDistanceUnit DistanceManager::eDistanceUnitFromString(const QS
     if (valueLowerCase == "ft")
         return eDistanceUnit::FT;
 
-
     return eDistanceUnit::UNKNOWN;
 }
 
@@ -68,6 +67,12 @@ DistanceManager::DistanceManager(QObject* parent)
  */
 bool DistanceManager::validateDistance(QString distance)
 {
+    if (distance.isEmpty())
+    {
+        return false;
+    }
+
+
     QRegExp regExp("([0-9]+(.[0-9]+)?) *([A-Za-z]*)");
     regExp.indexIn(distance);
 
@@ -221,6 +226,11 @@ void DistanceManager::setStep(double newStep)
     m_step = newStep;
 }
 
+/**
+ * @brief DistanceManager::lastError
+ * @details return the last error occurred
+ * @return the last error occurred
+ */
 DistanceManager::eError DistanceManager::lastError() const
 {
     return m_lastError;
