@@ -11,14 +11,12 @@ A new distance entered must be validated in order to be changed, and must follow
 */
 Rectangle{
     id: distanceWidget
+    implicitHeight: 20
+    implicitWidth: 20
 
     border.width: 1
     border.color: "grey"
     radius: 5
-
-    implicitHeight: 20
-    implicitWidth: 20
-
     color: theme.colorBackGround2
 
     property alias distance: textDistance.text
@@ -46,6 +44,7 @@ Rectangle{
         id: distanceWidgetMouseArea
 
         anchors.fill: parent
+
         onClicked: {
             popup.width = distanceWidget.width;
             popup.open()
@@ -64,18 +63,19 @@ Rectangle{
         }
     }
 
+    // Button used for incrementation and decrementation of distance
     RowLayout {
         anchors.fill: parent
 
         Text {
             id: textDistance
-            horizontalAlignment : Text.AlignHCenter
-            verticalAlignment : Text.AlignVCenter
-
-            text: "1 m"
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            horizontalAlignment : Text.AlignHCenter
+            verticalAlignment : Text.AlignVCenter
+            text: "1 m"
         }
 
         ColumnLayout {
@@ -88,21 +88,23 @@ Rectangle{
             property int buttonHeight: 20
 
             Button {
+                id: buttonIncrement
+
+                Layout.fillHeight: true
+                Layout.preferredWidth: 20
+
                 text:"+"
                 width: parent.buttonWidth
                 onClicked: distanceManager.incrementDistanceByStep()
-
-                Layout.fillHeight: true
-                Layout.preferredWidth: 20
             }
 
             Button {
+                Layout.fillHeight: true
+                Layout.preferredWidth: 20
+
                 text:"-"
                 width: parent.buttonWidth
                 onClicked: distanceManager.decrementDistanceByStep()
-
-                Layout.fillHeight: true
-                Layout.preferredWidth: 20
             }
         }
     }
@@ -113,7 +115,6 @@ Rectangle{
 
         onEntered: dropHightlight.visible = true
         onExited: dropHightlight.visible = false
-
         onDropped:{
             distanceManager.validateDistance(drop.text)
             onExited: dropHightlight.visible = false
@@ -122,6 +123,7 @@ Rectangle{
         Rectangle {
             id: dropHightlight
             anchors.fill: parent
+
             color: theme.colorHighlight
             radius: 5
             opacity: 0.5
@@ -129,15 +131,17 @@ Rectangle{
         }
     }
 
+    // Popup which allow to edit the distance
     Popup{
         id: popup
 
         margins: 0
         padding: 5
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-        clip: true
         contentHeight: childrenRect.height
         height: contentHeight
+
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+        clip: true
 
         onOpened: {
             textInputEditText.forceActiveFocus()
@@ -186,11 +190,12 @@ Rectangle{
 
                 TextField {
                     id: textInputEditText
-                    width: 50
-                    text: distanceWidget.distance
 
                     anchors.left: parent.left
                     anchors.right: parent.right
+
+                    width: 50
+                    text: distanceWidget.distance
 
                     validator: RegExpValidator {
                         regExp: /[0-9]*(.[0-9]+)? *[A-Za-z]*/
@@ -207,12 +212,11 @@ Rectangle{
                     placeholderText: "Enter a distance. (ex: 25 km)"
 
                     Button {
+                        anchors.right: parent.right
+
                         width: 20
                         height: 20
                         text: "X"
-
-                        //                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
 
                         background: Item {} // Allow to have en transparent background
 

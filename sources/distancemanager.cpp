@@ -136,7 +136,9 @@ void DistanceManager::decrementDistanceByStep()
     double newDistance = m_currentDistance - m_step;
     if (newDistance >= 0 )
     {
+        qDebug() << "Décrement step" << newDistance;
         m_currentDistance = newDistance;
+
     }
 
     emit distanceValidatedChanged();
@@ -149,7 +151,12 @@ void DistanceManager::decrementDistanceByStep()
  */
 QString DistanceManager::getValidatedDistance()
 {
-    QString result = QString::number(m_currentDistance) + " " + textFromValue(m_currentDistanceUnit);
+    QString numberResult;
+    numberResult.setNum(m_currentDistance, 'f', 3);
+    numberResult.remove( QRegExp("0+$") ); // Remove any number of trailing 0's
+    numberResult.remove( QRegExp("\\.$") );
+
+    QString result = numberResult + " " + textFromValue(m_currentDistanceUnit);
     return result;
 }
 

@@ -19,7 +19,6 @@ Window {
     Rectangle {
         id: root
         anchors.fill: parent
-
         color: theme.colorBackGround
 
         Column{
@@ -50,9 +49,10 @@ Window {
 
             DistanceWidget{
                 id: distanceWidget
+                anchors.horizontalCenter:  parent.horizontalCenter
+
                 width: 200
                 height: 50
-                anchors.horizontalCenter:  parent.horizontalCenter
             }
 
             // separator
